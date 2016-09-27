@@ -35,22 +35,26 @@ public class generateSeries extends HttpServlet {
             String totalNumbers = request.getParameter("totalNumbers");
             
             try {
-                int first = 0;
-                int second = 1;
+                float first = 0;
+                float second = 1;
                 int total = Integer.parseInt(totalNumbers);
                 if(total > 2 && total < 51) {
                     ArrayList FibonacciSeries = new ArrayList();
-                    FibonacciSeries.add(first);
-                    FibonacciSeries.add(second);
+                    FibonacciSeries.add(String.format("%.0f",first));
+                    FibonacciSeries.add(String.format("%.0f",second));
 
                     for(int i = 0 ; i < total - 2 ; i++ ){
-                        int sum = first + second;
-                        FibonacciSeries.add(sum);
+                        float sum = first + second;
+                        FibonacciSeries.add(String.format("%.0f",sum));
                         first = second;
                         second = sum;
                     }
                     for(int i = 0 ; i < FibonacciSeries.size() ; i++){
-                        out.println(FibonacciSeries.get(i) + "<br/>");
+                        if(i%2 == 0){
+                            out.println("<span style='color:red'>"+FibonacciSeries.get(i) + "</span><br/>");
+                        } else {
+                            out.println("<span style='color:green'>"+FibonacciSeries.get(i) + "</span><br/>");
+                        }
 
                     }
                 } else {

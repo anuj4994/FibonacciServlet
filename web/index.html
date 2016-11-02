@@ -7,20 +7,58 @@ and open the template in the editor.
 <html>
     <head>
         <title>Fibonacci Series</title>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>
+            function restCallFibo() {
+                var limit = $("#totalNumbers").val();
+                
+                 var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET","http://54.70.113.238:5000/fibonacci/"+limit , false );
+                xmlHttp.setRequestHeader("Access-Control-Allow-Origin","*");
+                xmlHttp.send(  );
+                var JsonObject= JSON.parse(xmlHttp.responseText);
+                $("#ans").html(JsonObject.fibonacci);
+            }
+            function restCallFact(){
+                var num = $("#totalNumbers").val();
+                
+                 var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET","http://54.70.113.238:5000/factorial/"+num , false );
+                xmlHttp.setRequestHeader("Access-Control-Allow-Origin","*");
+                xmlHttp.send(  );
+                var JsonObject= JSON.parse(xmlHttp.responseText);
+                $("#ans").html(JsonObject.factorial);
+            }
+            function restCallCheckPrime(){
+                var num = $("#totalNumbers").val();
+                
+                 var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET","http://54.70.113.238:5000/checkPrime/"+num , false );
+                xmlHttp.setRequestHeader("Access-Control-Allow-Origin","*");
+                xmlHttp.send(  );
+                var JsonObject= JSON.parse(xmlHttp.responseText);
+                $("#ans").html(JsonObject.prime);
+            }
+            </script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <div>
-            <form id="fibonacciSeries" action="generateSeries" method="post">
+<!--                <form id="fibonacciSeries" action="http://localhost:8080/RESTWebService/webresources/entity.customer/GenerateFibo/10" method="post">-->
                 
                 <center>
                 Total Numbers : <input type="text" name="totalNumbers" id="totalNumbers" /><br/>
                
-                <button>Generate Fibonacci Series</button>
+                <button onclick="restCallFibo();">Generate Fibonacci Series</button>
+                <button onclick="restCallFact();">Generate Factorial</button>
+                <button onclick="restCallCheckPrime();">Check Prime</button>
                 </center>
                 
-            </form>
+            <!--</form>-->
+        </div>
+        <div id="ans" style="margin: 10px">
         </div>
     </body>
 </html>

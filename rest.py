@@ -48,8 +48,8 @@ class apiRSDL(Resource):
             x = 'rsdl.xml'
             #y = ET.parse(x)
             
-            return Response(y, mimetype='text/xml')        #print(BeautifulSoup(x, "xml").prettify())         
-        return Response(y, mimetype='text/plain') 
+            return Response(y, mimetype='text/plain')        #print(BeautifulSoup(x, "xml").prettify())         
+        return Response(y, mimetype='text/xml') 
         
 class generateFibo(Resource):
     def get(self,number):

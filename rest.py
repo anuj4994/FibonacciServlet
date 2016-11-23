@@ -9,6 +9,8 @@ from flask import Flask
 from flask_restful import Resource, Api
 from flask import Response
 from flask import request
+import urllib
+import json
 import xml.etree.ElementTree as ET
 import math
 
@@ -47,9 +49,11 @@ class apiRSDL(Resource):
         if(rsdl == ""):
             x = 'rsdl.xml'
             #y = ET.parse(x)
-            
-            return Response(y, mimetype='text/plain')        #print(BeautifulSoup(x, "xml").prettify())         
-        return Response(y, mimetype='text/xml') 
+           
+
+
+            return Response(y, mimetype='text/xml')        #print(BeautifulSoup(x, "xml").prettify())         
+        return Response(y, mimetype='text/plain') 
         
 class generateFibo(Resource):
     def get(self,number):
@@ -67,10 +71,18 @@ class generateFibo(Resource):
             # print(a)
        return {"fibonacci" : result}
 
+class getDistance(Resource):
+    def get(self,fromPlace,toPlace):
+        url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins="+fromPlace+"&destinations="+toPlace+"&key=AIzaSyDr9m1U-W0TW2pgIkDlkGRs4_4AP7c6_7M"
+        f = urllib.urlopen(url)
+        myfile = json.loads(f.read())
+        return {"duration": myfile['rows'][0]['elements'][0]['duration']['text'],"distance": myfile['rows'][0]['elements'][0]['distance']['text']}
+
 api.add_resource(HelloWorld, '/')
 api.add_resource(generateFibo, '/fibonacci/<int:number>')
 api.add_resource(generateFact, '/factorial/<int:number>')
 api.add_resource(checkPrime, '/checkPrime/<int:number>')
+api.add_resource(getDistance, '/getDistance/<string:fromPlace>/<string:toPlace>')
 api.add_resource(apiRSDL, '/api')
 
 

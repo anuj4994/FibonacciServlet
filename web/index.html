@@ -16,6 +16,8 @@ and open the template in the editor.
                  var xmlHttp = new XMLHttpRequest();
                 xmlHttp.open( "GET","http://54.70.113.238:5000/fibonacci/"+limit , false );
                 xmlHttp.setRequestHeader("Access-Control-Allow-Origin","*");
+               // xmlHttp.setHeader("Access-Control-Allow-Origin:", "http://54.70.113.238:8080/");
+               // xmlHttp.setHeader("Access-Control-Allow-Methods", "GET, POST,PUT");
                 xmlHttp.send(  );
                 var JsonObject= JSON.parse(xmlHttp.responseText);
                 $("#ans").html(JsonObject.fibonacci);
@@ -40,6 +42,18 @@ and open the template in the editor.
                 var JsonObject= JSON.parse(xmlHttp.responseText);
                 $("#ans").html(JsonObject.prime);
             }
+            function restCallDistance(){
+                var fromCity = $("#fromCity").val();
+                var toCity = $("#toCity").val();
+                
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET","http://54.70.113.238:5000/getDistance/"+fromCity+"/"+toCity , false );
+                xmlHttp.setRequestHeader("Access-Control-Allow-Origin","*");
+                xmlHttp.send(  );
+                var JsonObject= JSON.parse(xmlHttp.responseText);
+                //alert(xmlHttp.responseText);
+                $("#ans").html("<span>Distance : " + JsonObject.distance + "</span><br><span>Duration : " + JsonObject.duration + "</span>");
+            }
             </script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,6 +68,14 @@ and open the template in the editor.
                 <button onclick="restCallFibo();">Generate Fibonacci Series</button>
                 <button onclick="restCallFact();">Generate Factorial</button>
                 <button onclick="restCallCheckPrime();">Check Prime</button>
+                <br/>
+                <br/>
+                <hr>
+                <br>
+                <br>
+                From City : <input type="text" name="fromCity" id="fromCity"/><br/>
+                To City : <input type="text" name="toCity" id="toCity"/><br/>
+                <button onclick="restCallDistance()">Find Distance</button>
                 </center>
                 
             <!--</form>-->
